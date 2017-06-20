@@ -1,0 +1,10 @@
+all:
+  exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'docs/**/*'
+    - 'docs/**/*'
+    - 'spec/**/*'
+    - 'tmp/**/*'
+max_warnings: 150
+verbose: false

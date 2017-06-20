@@ -1,0 +1,5 @@
+export PULL_REQUEST_URL=${CI_PULL_REQUEST}
+IFS='/'
+array=( $PULL_REQUEST_URL )
+export PULL_REQUEST_ID=`echo ${array[6]}`
+bundle exec pronto run -f github -c origin/master
