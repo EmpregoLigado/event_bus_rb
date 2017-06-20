@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'event_bus/version'
+require 'event_bus_rb/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "event_bus"
+  spec.name          = "event_bus_rb"
   spec.version       = EventBus::VERSION
   spec.authors       = ["Emprego Ligado"]
   spec.email         = ["vagas@empregoligado.com.br"]

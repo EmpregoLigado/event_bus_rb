@@ -1,6 +1,6 @@
 # EventBus
 
-[![CircleCI](https://circleci.com/gh/EmpregoLigado/event_bus.svg?style=svg)](https://circleci.com/gh/EmpregoLigado/event_bus)
+[![CircleCI](https://circleci.com/gh/EmpregoLigado/event_bus_rb.svg?style=svg)](https://circleci.com/gh/EmpregoLigado/event_bus_rb)
 
 ![](http://assets.diylol.com/hfs/cc0/d52/de9/resized/short-bus-meme-generator-maddie-secondline-8cbf54.jpg)
 
@@ -21,7 +21,7 @@ Let's look at a diagram for EventBus:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'event_bus'
+gem 'event_bus_rb'
 ```
 
 And then execute:
@@ -30,7 +30,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install event_bus
+    $ gem install event_bus_rb
 
 And set env vars:
 ```ruby
@@ -47,7 +47,7 @@ A application can trigger events based passing an EventBus::Event instance,
 so others systems that listens to these events based matching the routing key (used as event_name below) will receive the event payload content.
 
 ```ruby
-require 'event_bus'
+require 'event_bus_rb'
 
 event_name = 'resource.origin.action'
 body = { resource: 'full' }
@@ -57,7 +57,7 @@ EventBus::Emitter.trigger(event)
 
 EventBus::Config.broker.close_connection
 ```
-[See more details](https://github.com/EmpregoLigado/event_bus/blob/master/examples/emitter.rb)
+[See more details](https://github.com/EmpregoLigado/event_bus_rb/blob/master/examples/emitter.rb)
 
 ### Listeners
 
@@ -66,7 +66,7 @@ daemon like any other. The `Listener` api handles the blocking looping system,
 so the client doesn`t need to think about those implementation details.
 
 ```ruby
-require 'event_bus'
+require 'event_bus_rb'
 
 event_name = 'resource.origin.action'
 
@@ -84,7 +84,7 @@ puts  'Stop receiving messages'
 EventBus::Config.broker.close_connection
 ```
 
-[See more details](https://github.com/EmpregoLigado/event_bus/blob/master/examples/listener.rb)
+[See more details](https://github.com/EmpregoLigado/event_bus_rb/blob/master/examples/listener.rb)
 
 #### Multiple events routing
 
@@ -93,7 +93,7 @@ If your application needs to handle with loads of events you can extends ```Even
 A simplistic example can be written like so:
 
 ```ruby
-require 'event_bus'
+require 'event_bus_rb'
 
 class CustomEventListener < EventBus::Listeners::Base
   bind :pay, 'resource.custom.pay'
@@ -108,7 +108,7 @@ class CustomEventListener < EventBus::Listeners::Base
   end
 end
 ```
-[See more details](https://github.com/EmpregoLigado/event_bus/blob/master/examples/daemon.rb)
+[See more details](https://github.com/EmpregoLigado/event_bus_rb/blob/master/examples/daemon.rb)
 
 You can also bind more than one routing keys to methods using `*` or `#`.
 
