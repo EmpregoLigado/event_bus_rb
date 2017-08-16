@@ -18,7 +18,8 @@ module EventBus
       end
 
       def produce(event)
-        topic.publish(event.payload, routing_key: event.name)
+        topic.publish(event.payload, routing_key: event.name,
+                      content_type: 'application/json')
       end
 
       private
