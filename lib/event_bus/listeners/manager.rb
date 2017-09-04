@@ -5,8 +5,8 @@ module EventBus
       class << self
         def bind_all_listeners
           listener_configurations.each do |config|
-            EventBus::Listener.on(config[:routing_key]) do |event|
-              config[:listener_class].new.send(config[:method], event)
+            EventBus::Listener.on(config[:routing_key]) do |event, channel|
+              config[:listener_class].new(channel).send(config[:method], event)
             end
           end
         end
