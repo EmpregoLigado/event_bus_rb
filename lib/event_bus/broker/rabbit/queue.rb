@@ -28,7 +28,7 @@ module EventBus
 
         event = EventBus::Event.new(event_name, payload)
 
-        block.call(event, channel)
+        block.call(event, channel, delivery_info)
       end
 
       def topic

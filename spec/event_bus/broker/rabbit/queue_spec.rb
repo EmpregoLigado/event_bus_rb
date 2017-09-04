@@ -1,8 +1,8 @@
 describe EventBus::Broker::Rabbit::Queue do
   let(:instance) { described_class.new(connection) }
-  let(:connection) { OpenStruct.new(queue: bindable) }
-  let(:bindable) { OpenStruct.new(bind: subscribable) }
-  let(:subscribable) { OpenStruct.new(subscribe: block) }
+  let(:connection) { double('conn', queue: bindable) }
+  let(:bindable) { double('bindable', bind: subscribable) }
+  let(:subscribable) { double('subscribable', subscribe: block) }
   let(:topic) { 'topic' }
   let(:event) { 'event' }
   let(:routing_key) { 'Routing_KEY' }
@@ -35,9 +35,6 @@ describe EventBus::Broker::Rabbit::Queue do
 
     before do
       allow(EventBus::Broker::Rabbit::Topic).to receive(:topic).and_return(topic)
-
-      allow(connection).to receive(:queue).and_return(bindable)
-      allow(bindable).to receive(:bind).and_return(subscribable)
     end
 
     subject { instance.subscribe(routing_key, &block) }
@@ -62,7 +59,7 @@ describe EventBus::Broker::Rabbit::Queue do
 
     context 'when message is received' do
       let(:event_name) { 'event_name' }
-      let(:delivery_info) { OpenStruct.new(routing_key: event_name) }
+      let(:delivery_info) { double('delivery_info', routing_key: event_name) }
       let(:properties) { 'properties' }
       let(:payload) { 'payload' }
       let(:subscribe_block) do
@@ -78,7 +75,7 @@ describe EventBus::Broker::Rabbit::Queue do
       it 'cals block with the received event' do
         subject
 
-        expect(block).to receive(:call).with(event)
+        expect(block).to receive(:call).with(event, connection, delivery_info)
 
         subscribe_block.call(delivery_info, properties, payload)
       end
