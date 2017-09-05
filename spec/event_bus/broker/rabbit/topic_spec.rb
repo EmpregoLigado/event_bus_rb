@@ -78,7 +78,9 @@ describe EventBus::Broker::Rabbit::Topic do
     end
 
     before do
-      allow(topic).to receive(:publish).with(payload_expected, routing_key: routing_key)
+      allow(topic).to receive(:publish).with(payload_expected,
+                                             routing_key: routing_key,
+                                             content_type: "application/json")
     end
 
     subject { described_class.produce(connection, event) }
@@ -100,7 +102,9 @@ describe EventBus::Broker::Rabbit::Topic do
       let(:event) { EventBus::Event.new(routing_key, body, schemaVersion) }
 
       it 'changes schemaVersion default' do
-        expect(topic).to receive(:publish).with(payload_expected, routing_key: routing_key)
+        expect(topic).to receive(:publish).with(payload_expected,
+                                                routing_key: routing_key,
+                                                content_type: 'application/json')
 
         subject
       end
@@ -124,7 +128,9 @@ describe EventBus::Broker::Rabbit::Topic do
     subject { instance.produce(event) }
 
     it 'publishes the event with correct params' do
-      expect(topic).to receive(:publish).with(payload_expected, routing_key: routing_key)
+      expect(topic).to receive(:publish).with(payload_expected,
+                                              routing_key: routing_key,
+                                              content_type: 'application/json')
 
       subject
     end

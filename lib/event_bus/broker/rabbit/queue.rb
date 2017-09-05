@@ -14,7 +14,7 @@ module EventBus
 
         channel.queue(name, queue_options)
           .bind(topic, routing_key: routing_key)
-          .subscribe do |delivery_info, properties, payload|
+          .subscribe(manual_ack: true) do |delivery_info, properties, payload|
             callback(delivery_info, properties, payload, &block)
           end
       end
@@ -28,7 +28,7 @@ module EventBus
 
         event = EventBus::Event.new(event_name, payload)
 
-        block.call(event)
+        block.call(event, channel, delivery_info)
       end
 
       def topic

@@ -1,10 +1,14 @@
+# Define all environment varibles for specs
+ENV['RABBIT_EVENT_BUS_APP_NAME'] = "app_name"
+ENV['RABBIT_EVENT_BUS_TOPIC_NAME'] = "event_bus"
+ENV['RABBIT_EVENT_BUS_VHOST'] = "event_bus"
+ENV['RABBIT_URL'] = "amqp://guest:guest@localhost:5672"
+
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 Bundler.require(:default, 'test')
 
 require 'rubygems'
-require 'dotenv/load'
-require 'event_bus'
 require 'pry'
 
 RSpec.configure do |config|
