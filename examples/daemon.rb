@@ -18,12 +18,19 @@ class CustomEventListener < EventBus::Listeners::Base
   bind :pay, 'resource.custom.pay'
   bind :receive, 'resource.custom.receive'
 
-  def pay(event)
+  def pay(event, delivery_info)
     puts "Paid #{event.body['amount']} for #{event.body['name']} ~> #{event.name}"
+
+    channel.acknowledge(delivery_info.delivery_tag, false)
   end
 
-  def receive(event)
-    puts "Received #{event.body['amount']} from #{event.body['name']} ~> #{event.name}"
+  def receive(event, delivery_info)
+    if event.body['amount'] > 42
+      channel.acknowledge(delivery_info.delivery_tag, false)
+      puts "Received #{event.body['amount']} from #{event.body['name']} ~> #{event.name}"
+    else
+      puts "[consumer] Got SKIPPED message"
+    end
   end
 end
 

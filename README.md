@@ -72,7 +72,7 @@ event_name = 'resource.origin.action'
 
 puts 'Start receiving messages'
 
-EventBus::Listener.on(event_name) do |event|
+EventBus::Listener.on(event_name) do |event, _delivery_info|
   puts ""
   puts "  - Received a message from #{event.name}:"
   puts "     Message: #{event.body}"
@@ -99,12 +99,16 @@ class CustomEventListener < EventBus::Listeners::Base
   bind :pay, 'resource.custom.pay'
   bind :receive, 'resource.custom.receive'
 
-  def pay(event)
+  def pay(event, delivery_info)
     puts "Paid #{event.body['amount']} for #{event.body['name']} ~> #{event.name}"
+
+    channel.ack(delivery_info.delivery_tag, false)
   end
 
-  def receive(event)
+  def receive(event, delivery_info)
     puts "Received #{event.body['amount']} from #{event.body['name']} ~> #{event.name}"
+
+    channel.ack(delivery_info.delivery_tag, false)
   end
 end
 ```

@@ -18,7 +18,7 @@ event_name = 'resource.origin.action'
 
 puts 'Start receiving messages'
 
-EventBus::Listener.on(event_name) do |event|
+EventBus::Listener.on(event_name) do |event, _delivery_info|
   puts ""
   puts "  - Received a message from #{event.name}:"
   puts "     Message: #{event.body}"
