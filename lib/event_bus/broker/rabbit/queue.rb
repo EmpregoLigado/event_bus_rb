@@ -3,6 +3,7 @@ module EventBus
     class Rabbit::Queue
       def initialize(connection)
         @channel = connection
+        @channel.prefetch(1)
       end
 
       def self.subscribe(connection, routing_key, &block)

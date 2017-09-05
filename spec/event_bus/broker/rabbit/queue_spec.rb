@@ -1,12 +1,24 @@
 describe EventBus::Broker::Rabbit::Queue do
   let(:instance) { described_class.new(connection) }
-  let(:connection) { double('conn', queue: bindable) }
+  let(:connection) { double('conn', queue: bindable, prefetch: 1) }
   let(:bindable) { double('bindable', bind: subscribable) }
   let(:subscribable) { double('subscribable', subscribe: block) }
   let(:topic) { 'topic' }
   let(:event) { 'event' }
   let(:routing_key) { 'Routing_KEY' }
   let(:block) { ->(event) { true } }
+
+  describe '.new' do
+    let(:connection) { double('conn', queue: bindable) }
+
+    subject { instance }
+
+    it 'set channel prefetch to 1' do
+      allow(connection).to receive(:prefetch).with(1)
+
+      subject
+    end
+  end
 
   describe '.subscribe' do
     before do
