@@ -22,7 +22,7 @@ module EventBus
       private
 
       def channel
-        connection.create_channel
+        @@channel ||= connection.create_channel
       end
 
       def session
