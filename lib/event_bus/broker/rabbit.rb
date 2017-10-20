@@ -23,6 +23,8 @@ module EventBus
 
       def channel
         @@channel ||= connection.create_channel
+        @@channel = connection.create_channel if @@channel.closed?
+        @@channel
       end
 
       def session
