@@ -1,20 +1,20 @@
 module EventBus
   module Broker
     class Rabbit::Topic
-      def initialize(connection)
-        @channel = connection
+      def initialize(channel)
+        @channel = channel
       end
 
-      def self.topic(connection)
-        new(connection).topic
+      def self.topic(channel)
+        new(channel).topic
       end
 
       def topic
         @topic ||= channel.topic(EventBus::Config::TOPIC, topic_options)
       end
 
-      def self.produce(connection, event)
-        new(connection).produce(event)
+      def self.produce(channel, event)
+        new(channel).produce(event)
       end
 
       def produce(event)
