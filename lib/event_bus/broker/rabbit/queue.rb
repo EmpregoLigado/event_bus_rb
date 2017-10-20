@@ -1,13 +1,13 @@
 module EventBus
   module Broker
     class Rabbit::Queue
-      def initialize(connection)
-        @channel = connection
+      def initialize(channel)
+        @channel = channel
         @channel.prefetch(1)
       end
 
-      def self.subscribe(connection, routing_key, &block)
-        new(connection).subscribe(routing_key, &block)
+      def self.subscribe(channel, routing_key, &block)
+        new(channel).subscribe(routing_key, &block)
       end
 
       def subscribe(routing_key, &block)
