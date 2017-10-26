@@ -27,7 +27,7 @@ module EventBus
       attr_reader :channel
 
       def topic_options
-        { durable: true, auto_delete: false }
+        { passive: true }
       end
     end
   end
