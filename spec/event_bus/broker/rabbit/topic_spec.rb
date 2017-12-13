@@ -1,7 +1,7 @@
 describe EventBus::Broker::Rabbit::Topic do
   let(:instance) { described_class.new(connection) }
   let(:connection) { OpenStruct.new(topic: topic) }
-  let(:topic_options) { { durable: true, auto_delete: false } }
+  let(:topic_options) { { passive: true } }
   let(:topic) { double('Topic') }
   let(:event) { EventBus::Event.new(routing_key, body) }
   let(:routing_key) { 'resource.origin.action' }
