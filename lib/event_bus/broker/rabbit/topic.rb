@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventBus
   module Broker
     class Rabbit::Topic
@@ -19,7 +21,7 @@ module EventBus
 
       def produce(event)
         topic.publish(event.payload, routing_key: event.name,
-                      content_type: 'application/json')
+                                     content_type: 'application/json')
       end
 
       private
@@ -27,7 +29,7 @@ module EventBus
       attr_reader :channel
 
       def topic_options
-        { passive: true }
+        { passive: true, durable: true, auto_delete: false }
       end
     end
   end
