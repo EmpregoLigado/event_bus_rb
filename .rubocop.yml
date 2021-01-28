@@ -1,0 +1,2 @@
+inherit_from:
+  - https://gist.githubusercontent.com/dellingr/8b3c028813005542ce4ebfe8f45b4aed/raw/60644594a45aa0256d8fdde4fdd951e93732ccfb/.rubocop.yml

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventBus
   class Event
     attr_reader :name, :headers, :body, :schema_version
@@ -7,7 +9,7 @@ module EventBus
       @body = JSON.parse(body) rescue body
       @schema_version = @body['headers']['schemaVersion'] rescue schema_version
       generate_headers if has_name?
-      build_payload if @body && @body.has_key?('headers')
+      build_payload if @body&.has_key?('headers')
     end
 
     def payload

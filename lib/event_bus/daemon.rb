@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventBus
   class Daemon
     INTERRUPTION_SIGNALS = %w(TERM INT)

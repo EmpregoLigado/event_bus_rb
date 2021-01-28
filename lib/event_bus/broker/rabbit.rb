@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventBus
   module Broker
     class Rabbit < Base

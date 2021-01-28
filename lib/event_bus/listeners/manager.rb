@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Module responsible for managing all listeners
 module EventBus
   module Listeners

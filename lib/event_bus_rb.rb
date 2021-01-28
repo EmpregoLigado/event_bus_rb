@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'event_bus/version'
 require 'event_bus/daemon'
 require 'event_bus/event'

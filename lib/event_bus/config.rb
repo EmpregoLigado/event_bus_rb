@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventBus
   class Config
     APP_NAME = ENV['RABBIT_EVENT_BUS_APP_NAME']

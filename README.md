@@ -18,10 +18,21 @@ Let's look at a diagram for EventBus:
 
 ## Installation
 
-Add this line to your application's Gemfile:
+First configure the bundler to access the github packages registry.
+
+```bash
+bundle config https://rubygems.pkg.github.com/empregoligado your-username:PERSONAL_ACCESS_TOKEN
+```
+
+To create a token go to https://github.com/settings/tokens/new and create one. You MUST add the `read:packages` scope.
+
+After the bundler configuration, add this line to your application's Gemfile:
 
 ```ruby
-gem 'event_bus_rb'
+source "https://rubygems.pkg.github.com/empregoligado" do
+  gem "event_bus_rb", "current-version"
+end
+
 ```
 
 And then execute:
