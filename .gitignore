@@ -6,6 +6,6 @@
 /pkg/
 /spec/reports/
 /tmp/
-
 .env*
 !.env.example
+/Gemfile.lock
