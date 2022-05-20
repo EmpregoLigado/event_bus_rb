@@ -1,0 +1,58 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow checks out code, builds an image, performs a container image
+# vulnerability scan with Anchore's Grype tool, and integrates the results with GitHub Advanced Security
+# code scanning feature.  For more information on the Anchore scan action usage
+# and parameters, see https://github.com/anchore/scan-action. For more
+# information on Anchore's container image scanning tool Grype, see
+# https://github.com/anchore/grype
+name: Anchore Container Scan
+
+on:
+  push:
+    branches: [ master, qa ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ master, qa ]
+  schedule:
+    - cron: '0 12 * * 6'
+
+permissions: write-all
+
+jobs:
+  Anchore-Build-Scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Copy files for docker build
+      run: aws s3 cp s3://empregoligado-ops/secrets/id_rsa .ssh/id_rsa
+
+    - name: Build the Docker image
+      run: docker build --file Dockerfile --tag localbuild/testimage:latest --build-arg BUNDLE_RUBYGEMS__PKG__GITHUB__COM=dellingr:${{secrets.CI_REGISTRY_TOKEN}} .
+
+    - name: Run the Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
+      uses: anchore/scan-action@v3
+      id: scan
+      with:
+        image: "localbuild/testimage:latest"
+        acs-report-enable: true
+        fail-build: false
+        severity-cutoff: high
+
+    - name: Upload Anchore Scan Report
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: ${{ steps.scan.outputs.sarif }}
+
