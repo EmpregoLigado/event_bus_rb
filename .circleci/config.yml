@@ -1,8 +1,0 @@
-dependencies:
-  pre:
-    - cp .env.example .env
-  bundler:
-    without: [production]
-checkout:
-  post:
-    - git fetch origin --depth=1000000
